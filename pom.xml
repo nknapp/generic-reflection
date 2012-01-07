@@ -1,0 +1,39 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>generic-reflection</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>External Tools</name>
+	<description>Utility for simplifying reflection on generic classes.</description>
+	<parent>
+		<groupId>org.knappi.opensource</groupId>
+		<artifactId>knappi-parent</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+	<dependencies>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jna</groupId>
+			<artifactId>jna</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	<scm>
+		<connection>scm:git:git://github.com/nknapp/generic-reflection.git</connection>
+		<url>scm:git:git@github.com:nknapp/generic-reflection.git</url>
+		<developerConnection>scm:git:git@github.com:nknapp/generic-reflection.git</developerConnection>
+	</scm>
+	<distributionManagement>
+		<site>
+			<id>knappi.org-site-server</id>
+			<url>scp://open-source.knappi.org/var/www/open-source/generic-reflection/</url>
+		</site>
+	</distributionManagement>
+</project>
