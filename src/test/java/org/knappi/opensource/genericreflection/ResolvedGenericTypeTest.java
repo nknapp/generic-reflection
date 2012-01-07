@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.knappi.opensource.genericreflection.ResolvedGenericType;
 
 
 
@@ -23,8 +22,8 @@ public class ResolvedGenericTypeTest {
 		Type type = ResolvedGenericTypeTest.class.getField("test").getGenericType();
 		ResolvedGenericType resolvedType = ResolvedGenericType.resolveType(type);
 		Assert.assertEquals(HashSetOfX.class,resolvedType.getRawType());
-		Assert.assertEquals(Integer.class,resolvedType.getActualParameters()[0]);
-		Assert.assertEquals(String.class,resolvedType.getActualParameters()[1]);
+		Assert.assertEquals(Integer.class,resolvedType.getActualParameters().get(0));
+		Assert.assertEquals(String.class,resolvedType.getActualParameters().get(1));
 	}
 
 	
@@ -41,8 +40,8 @@ public class ResolvedGenericTypeTest {
 		Type type = ResolvedGenericTypeTest.class.getField("test").getGenericType();
 		ResolvedGenericType resolvedType = ResolvedGenericType.resolveType(type);
 		Assert.assertEquals(HashSetOfX.class,resolvedType.getRawType());
-		Assert.assertEquals(Integer.class,resolvedType.getActualParameters()[0]);
-		Assert.assertEquals(String.class,resolvedType.getActualParameters()[1]);
+		Assert.assertEquals(Integer.class,resolvedType.getActualParameters().get(0));
+		Assert.assertEquals(String.class,resolvedType.getActualParameters().get(1));
 		ResolvedGenericType[] resolvedInterfaces = resolvedType.resolveInterfaces();
 		Assert.assertEquals(new ResolvedGenericType(InterfaceT.class, new Class<?>[] { Integer.class}),resolvedInterfaces[0]);
 		Assert.assertEquals(new ResolvedGenericType(InterfaceX.class, new Class<?>[] { String.class}),resolvedInterfaces[1]);
@@ -55,8 +54,8 @@ public class ResolvedGenericTypeTest {
 		ResolvedGenericType resolvedType = ResolvedGenericType.resolveType(type);
 		ResolvedGenericType collectionType = resolvedType.resolveTo(Collection.class);
 		Assert.assertEquals(Collection.class, collectionType.getRawType());
-		Assert.assertEquals(String.class, collectionType.getActualParameters()[0]);
-		Assert.assertEquals(1,collectionType.getActualParameters().length);
+		Assert.assertEquals(String.class, collectionType.getActualParameters().get(0));
+		Assert.assertEquals(1,collectionType.getActualParameters().size());
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
@@ -66,13 +65,6 @@ public class ResolvedGenericTypeTest {
 		resolvedType.resolveSuperclass();
 	}
 	
-	@Test
-	public void testIsAssignableTo() throws Exception {
-		Type type = ResolvedGenericTypeTest.class.getField("test").getGenericType();
-		ResolvedGenericType resolvedType = ResolvedGenericType.resolveType(type);
-		Assert.assertTrue(resolvedType.isAssignableTo(Collection.class));
-		Assert.assertFalse(resolvedType.isAssignableTo(List.class));
-	}
 	
 	@Test
 	public void testResolveToWithInterface() throws Exception {
@@ -80,8 +72,8 @@ public class ResolvedGenericTypeTest {
 		ResolvedGenericType resolvedType = ResolvedGenericType.resolveType(type);
 		ResolvedGenericType collectionType = resolvedType.resolveTo(Collection.class);
 		Assert.assertEquals(Collection.class, collectionType.getRawType());
-		Assert.assertEquals(String.class, collectionType.getActualParameters()[0]);
-		Assert.assertEquals(1,collectionType.getActualParameters().length);
+		Assert.assertEquals(String.class, collectionType.getActualParameters().get(0));
+		Assert.assertEquals(1,collectionType.getActualParameters().size());
 	}
 	
 }

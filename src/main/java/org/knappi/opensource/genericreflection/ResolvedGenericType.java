@@ -5,6 +5,8 @@ import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 
 /**
@@ -70,7 +72,9 @@ import java.util.Collection;
  *  [ ... ]
  *  
  *  Type genericType = Demo.class.getField("field").getGenericType();
- *  ResolvedGenericType.resolveType(genericType);   // Initial resolving, contains HashSetOfX&lt;String,Integer&gt; 
+ *  ResolvedGenericType type = ResolvedGenericType.resolveType(genericType);   // Initial resolving, contains HashSetOfX&lt;String,Integer&gt;
+ *  ResolvedGenericType collectionType = type.resolveTo(Collection.class);  // Resolve up to collection.
+ *  List&lt;Class&lt;?>> params = collectionType.getActualParameters(); // Get resolved type parameters
  * </pre>
  * @author knappmeier
  *
@@ -86,7 +90,12 @@ public class ResolvedGenericType {
 	private Class<?>[] actualParameters;
 	
 	
-	public ResolvedGenericType(Class<?> rawType, Type[] actualParameters) {
+	/**
+	 * Package private for use in test cases
+	 * @param rawType
+	 * @param actualParameters
+	 */
+	ResolvedGenericType(Class<?> rawType, Type[] actualParameters) {
 		this.rawType = rawType;
 		this.actualParameters = new Class<?>[actualParameters.length];
 		for (int i=0;i<actualParameters.length; i++) {
@@ -95,11 +104,11 @@ public class ResolvedGenericType {
 	}
 	
 	/**
-	 * Returns the resolve type parameters
+	 * Returns the resolved type parameters
 	 * @return
 	 */
-	public Class<?>[] getActualParameters() {
-		return actualParameters.clone();
+	public List<Class<?>> getActualParameters() {
+		return Collections.unmodifiableList(Arrays.asList(actualParameters));
 	}
 	
 	/**
@@ -196,8 +205,8 @@ public class ResolvedGenericType {
 			Type[] superTypeArguments = ((ParameterizedType) genericSuperType).getActualTypeArguments();
 			for (int i=0; i<superTypeArguments.length; i++) {
 				for (int j=0; j<typeParameters.length; j++) {
-					if (typeParameters[j]==superTypeArguments[i]) {
-						superTypeArguments[i]=getActualParameters()[j];
+					if (superTypeArguments[i]==typeParameters[j]) {
+						superTypeArguments[i]=this.actualParameters[j];
 					}
 				}
 			}
@@ -206,14 +215,6 @@ public class ResolvedGenericType {
 		throw new IllegalArgumentException("Unable to handle type "+this);
 	}
 	
-	/**
-	 * Checks, whether "clazz" is assignable from {@link #getRawType()}. 
-	 * @param clazz the target class
-	 * @return true is "clazz" is assignable from {@link #getRawType()}
-	 */
-	public boolean isAssignableTo(Class<?> clazz) {
-		return clazz.isAssignableFrom(getRawType());
-	}
 	
 	@Override
 	public String toString() {
@@ -221,6 +222,9 @@ public class ResolvedGenericType {
 				+ Arrays.toString(actualParameters) + "]";
 	}
 
+	/**
+	 * Implemented to compute hash code from {@link #rawType} and {@link #actualParameters}.
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -231,6 +235,9 @@ public class ResolvedGenericType {
 		return result;
 	}
 
+	/**
+	 * Implemented to compare {@link #rawType} and {@link #actualParameters}.
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

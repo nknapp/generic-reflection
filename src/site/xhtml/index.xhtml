@@ -1,0 +1,23 @@
+<html>
+<body>
+	<h1>Generic Reflection Utils</h1>
+	
+	<p>
+	This library currently consists only of the class <code><a href="apidocs/org/knappi/opensource/genericreflection/ResolvedGenericType.html">ResolvedGenericType</a></code>. 
+	This class can be used to answer the following question:
+	</p>
+	<p>
+	Given a class <code>Child</code>&lt;X,Y>:  
+	</p> 
+	<ol>
+		<li>For a given X and Y what is the direct superclass of <code>Child&lt;X,Y></code> (including generic parameters)?</li>
+		<li>For a given X and Y what are the direct superclass implemented by <code>Child&lt;X,Y></code> (including generic parameters)?</li>
+		<li>Given <code>Parent&lt;T></code> a transitive generic superclass or generic interface of <code>Child</code>, what is T?</li>  
+		<li>Is <code>Child&lt;String,Integer></code> assignable to Parent&lt;Integer></li>?
+	</ol>
+	
+	The class only works in the simple case where type parameters are themselves concrete classes. Generics within type parameters 
+	and parameters that are resolved from elsewhere won't work at the moment. Examples can be found in the test case 
+	<code>org.knappi.opensource.genericreflection.ResolvedGenericTypeTest</code>.
+</body>
+</html>
