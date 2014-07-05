@@ -6,7 +6,7 @@ When retrieving a field-type, method-return-type or method-parameter-type via re
 (e.g. by calling [getGenericParameterTypes](http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/Method.html#getGenericParameterTypes()),
 a Type-object is available which contains information about the type parameter.
 
-This library currently contains only one class [ResolvedGenericType](apidocs/org/knappi/opensource/genericreflection/ResolvedGenericType.html). 
+This library currently contains only one class [ResolvedGenericType](src/main/java/org/knappi/opensource/genericreflection/ResolvedGenericType.java). 
 This class can be used to answer the following question:
 
 Given a class <code>Child</code>&lt;X,Y>:  
@@ -18,4 +18,4 @@ Given a class <code>Child</code>&lt;X,Y>:
 
 The class only works in the simple case where type parameters are themselves concrete classes. Generics within type parameters 
 and parameters that are resolved from elsewhere won't work at the moment. Examples can be found in the test case 
-`org.knappi.opensource.genericreflection.ResolvedGenericTypeTest`.
+[ResolvedGenericTypeTest](src/main/test/org/knappi/opensource/genericreflection/ResolvedGenericTypeTest.java).
